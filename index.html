@@ -2,72 +2,270 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>perfectlypixelated // BOCCHI_MODE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>perfectlypixelated | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --pink: #e8a7a1; --yellow: #ffff3d; --bg: #0d0d0d; --white: #ffffff; }
-        
-        * { cursor: crosshair; }
-        body { 
-            background: var(--bg); color: var(--white); font-family: 'Courier New', monospace;
-            margin: 0; overflow: hidden; height: 100vh;
+        :root {
+            --bg-base: #050505;
+            --accent-primary: #3b82f6;
+            --accent-secondary: #8b5cf6;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --spring-easing: cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Scribble Border Frame */
-        .frame { 
-            position: fixed; inset: 20px; border: 8px dashed var(--pink); 
-            pointer-events: none; z-index: 100; 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        /* Chaotic Content Positioning */
-        .content { 
-            padding: 5rem; max-width: 600px; 
-            animation: jitter 0.1s infinite; 
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
         }
-        @keyframes jitter { 0% { transform: translate(1px, 1px); } 100% { transform: translate(-1px, -1px); } }
 
-        h1 { font-size: 6rem; color: var(--yellow); margin: 0; line-height: 0.9; }
-        .text-rotated { transform: rotate(-5deg); display: inline-block; background: var(--pink); color: black; padding: 10px; }
-
-        /* The Image Asset */
-        .img-wrapper { 
-            position: absolute; right: 10%; top: 20%; 
-            border: 5px solid var(--white); transform: rotate(10deg);
+        /* --- Liquid Motion Background --- */
+        .liquid-background {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            background: radial-gradient(circle at top right, #111, #050505);
         }
-        .img-wrapper img { width: 300px; filter: grayscale(50%) contrast(1.2); }
 
-        /* Custom Audio Style */
-        .audio-ctrl { position: absolute; bottom: 50px; left: 50px; }
-        
-        /* Glitchy Navigation */
-        .nav { position: absolute; top: 50px; left: 50px; display: flex; flex-direction: column; gap: 10px; }
-        .nav a { color: var(--pink); text-decoration: none; font-size: 2rem; border: 2px solid transparent; }
-        .nav a:hover { border: 2px solid var(--yellow); }
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: liquidFloat 20s infinite alternate ease-in-out;
+        }
+
+        .blob-1 {
+            width: 400px; height: 400px;
+            background: var(--accent-primary);
+            top: -10%; left: -10%;
+        }
+
+        .blob-2 {
+            width: 500px; height: 500px;
+            background: var(--accent-secondary);
+            bottom: -20%; right: -10%;
+            animation-delay: -5s;
+        }
+
+        @keyframes liquidFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, 100px) scale(1.1); }
+            100% { transform: translate(-50px, 50px) scale(0.9); }
+        }
+
+        /* --- Layout & Glassmorphism --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.4s var(--spring-easing), border-color 0.4s ease;
+        }
+
+        .glass-panel:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .hero-img-container {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--glass-border);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .hero-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- Projects Section --- */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            letter-spacing: -0.5px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .project-card h3 {
+            font-size: 1.4rem;
+            color: #fff;
+        }
+
+        .project-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        .tag-container {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: #e2e8f0;
+        }
+
+        /* --- Utility --- */
+        .btn {
+            display: inline-block;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.3s var(--spring-easing), opacity 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
 
-    <div class="frame"></div>
-
-    <div class="nav">
-        <a href="#">// PROJECTS</a>
-        <a href="#">// ABOUT_ME</a>
-        <a href="#">// GITHUB</a>
+    <!-- Liquid Motion Background -->
+    <div class="liquid-background">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
     </div>
 
-    <div class="content">
-        <h1>PERFECTLY<br><span class="text-rotated">PIXELATED</span></h1>
-        <p>>_ GUITAR HERO // ANXIOUS DEVELOPER</p>
-        <p>>_ SPECIALIZING IN: Luau, JS, Web-Chaos.</p>
-    </div>
+    <div class="container">
+        
+        <!-- Hero Section -->
+        <header class="glass-panel hero">
+            <div class="hero-content">
+                <h1>perfectlypixelated</h1>
+                <p>Game Developer & UI Architect. Specializing in high-performance frameworks, web-based applications, and creating polished, scalable experiences.</p>
+                <a href="https://github.com/perfectlypixelated" class="btn">View GitHub</a>
+            </div>
+            <div class="hero-img-container">
+                <img src="img/image_53df47.png" alt="Profile Avatar">
+            </div>
+        </header>
 
-    <div class="img-wrapper">
-        <img src="img/image_53df47.png" alt="Bocchi-chan">
-    </div>
+        <!-- Projects Section -->
+        <main>
+            <h2 class="section-title">Selected Works</h2>
+            <div class="grid">
+                
+                <!-- Project 1 -->
+                <article class="glass-panel project-card">
+                    <h3>Feather Framework</h3>
+                    <p>A custom, lightweight service-controller bootstrapping framework designed to optimize heavy-load games and replace standard libraries.</p>
+                    <div class="tag-container">
+                        <span class="tag">Luau</span>
+                        <span class="tag">Architecture</span>
+                        <span class="tag">Open Source</span>
+                    </div>
+                </article>
 
-    <div class="audio-ctrl">
-        <audio controls autoplay loop>
-            <source src="audio/bocchi-theme.mp3" type="audio/mpeg">
-        </audio>
+                <!-- Project 2 -->
+                <article class="glass-panel project-card">
+                    <h3>Slime Tower Defense</h3>
+                    <p>A strategic tower defense experience featuring custom entity wave systems, sophisticated tower mechanics, and highly polished UI logic.</p>
+                    <div class="tag-container">
+                        <span class="tag">Game Design</span>
+                        <span class="tag">UI/UX</span>
+                        <span class="tag">Systems Engineering</span>
+                    </div>
+                </article>
+
+                <!-- Project 3 -->
+                <article class="glass-panel project-card">
+                    <h3>Desktop Automation Tools</h3>
+                    <p>Custom executable applications built for workflow automation, web scraping, and bridging the gap between desktop and web environments.</p>
+                    <div class="tag-container">
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Electron</span>
+                        <span class="tag">JavaScript</span>
+                    </div>
+                </article>
+
+            </div>
+        </main>
+
     </div>
 
 </body>
