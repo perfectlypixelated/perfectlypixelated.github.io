@@ -5,74 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>perfectlypixelated</title>
     <style>
-        /* --- CUSTOMIZATION: Easily change site colors here --- */
         :root {
-            --bg-color: #050505;
-            --text-color: #ffffff;
-            --accent-color: #7289da;
+            --bocchi-pink: #e8a7a1;
+            --bocchi-yellow: #ffff3d;
+            --bocchi-dark: #0d0d0d;
+            --bocchi-red: #ff3232;
         }
 
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg-color); color: var(--text-color); font-family: 'Segoe UI', sans-serif; overflow: hidden; }
-
-        #bgCanvas { position: fixed; top: 0; left: 0; z-index: 0; }
-
-        .ui-wrapper { 
-            position: relative; z-index: 1; 
-            height: 100vh; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center;
-            animation: float 5s ease-in-out infinite;
+        body { 
+            margin: 0; background: var(--bocchi-dark); color: white;
+            font-family: 'Courier New', monospace; /* DIY Zine Aesthetic */
+            display: flex; justify-content: center; align-items: center; 
+            height: 100vh; overflow: hidden;
         }
 
-        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
+        /* Glitch Effect Container */
+        .glitch-container {
+            position: relative;
+            cursor: crosshair;
+        }
 
-        .card { background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 20px; backdrop-filter: blur(10px); text-align: center; border: 1px solid rgba(255,255,255,0.1); }
-        
-        .icon-grid { display: flex; gap: 20px; justify-content: center; margin-top: 20px; }
-        .svg-icon { width: 40px; height: 40px; fill: var(--accent-color); transition: 0.3s; }
-        .svg-icon:hover { transform: scale(1.2); }
+        h1 {
+            font-size: 5rem; text-transform: uppercase;
+            margin: 0; color: var(--bocchi-pink);
+            letter-spacing: -5px; position: relative;
+        }
+
+        /* The Glitch Logic */
+        .glitch-container:hover h1::before,
+        .glitch-container:hover h1::after {
+            content: "perfectlypixelated";
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+        }
+        .glitch-container:hover h1::before { color: var(--bocchi-red); left: 3px; animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) infinite; }
+        .glitch-container:hover h1::after { color: var(--bocchi-yellow); left: -3px; animation: glitch 0.3s reverse infinite; }
+
+        @keyframes glitch { 0% { clip-path: inset(20% 0 30% 0); } 50% { clip-path: inset(50% 0 10% 0); } 100% { clip-path: inset(10% 0 60% 0); } }
+
+        .desc { color: white; border-left: 4px solid var(--bocchi-pink); padding-left: 15px; margin-top: 1rem; }
     </style>
 </head>
 <body>
 
-    <canvas id="bgCanvas"></canvas>
-
-    <div class="ui-wrapper">
-        <div class="card">
-            <h1>perfectlypixelated</h1>
-            <p>Roblox Developer | UI Architect | Web Enthusiast</p>
-            
-            <!-- SVG ICONS: Copy-paste more of these 'svg-icon' blocks as needed -->
-            <div class="icon-grid">
-                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-            </div>
-        </div>
+    <div class="glitch-container">
+        <h1>perfectlypixelated</h1>
+        <p class="desc">Back-end Programmer <br> Anxious. Creative. Innotative.</p>
     </div>
 
-    <script>
-        const canvas = document.getElementById('bgCanvas');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-
-        function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resize);
-        resize();
-
-        function draw() {
-            ctx.fillStyle = '#050505'; ctx.fillRect(0, 0, width, height);
-            const time = Date.now() * 0.001;
-            const x = Math.sin(time) * 150 + width/2;
-            const y = Math.cos(time * 0.5) * 150 + height/2;
-            
-            const grad = ctx.createRadialGradient(x, y, 0, x, y, 400);
-            grad.addColorStop(0, '#7289da');
-            grad.addColorStop(1, 'transparent');
-            
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, width, height);
-            requestAnimationFrame(draw);
-        }
-        draw();
-    </script>
 </body>
 </html>
