@@ -2,52 +2,70 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>perfectlypixelated | BOCCHI MODE</title>
+    <title>perfectlypixelated // BOCCHI_MODE</title>
     <style>
-        :root { --pink: #e8a7a1; --yellow: #ffff3d; --bg: #0d0d0d; --red: #ff3232; }
+        :root { --pink: #e8a7a1; --yellow: #ffff3d; --bg: #0d0d0d; --white: #ffffff; }
         
+        * { cursor: crosshair; }
         body { 
-            background: var(--bg); color: white; font-family: 'Courier New', monospace; 
-            margin: 0; display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; height: 100vh; overflow: hidden;
-            /* Halftone Texture Overlay */
-            background-image: radial-gradient(#1a1a1a 1px, transparent 1px);
-            background-size: 20px 20px;
+            background: var(--bg); color: var(--white); font-family: 'Courier New', monospace;
+            margin: 0; overflow: hidden; height: 100vh;
         }
 
-        .container { 
-            border: 6px solid var(--pink); padding: 3rem; background: rgba(0,0,0,0.9);
-            text-align: center; position: relative; z-index: 10;
+        /* Scribble Border Frame */
+        .frame { 
+            position: fixed; inset: 20px; border: 8px dashed var(--pink); 
+            pointer-events: none; z-index: 100; 
         }
 
-        h1 { color: var(--yellow); font-size: 4rem; margin: 0; cursor: crosshair; }
+        /* Chaotic Content Positioning */
+        .content { 
+            padding: 5rem; max-width: 600px; 
+            animation: jitter 0.1s infinite; 
+        }
+        @keyframes jitter { 0% { transform: translate(1px, 1px); } 100% { transform: translate(-1px, -1px); } }
+
+        h1 { font-size: 6rem; color: var(--yellow); margin: 0; line-height: 0.9; }
+        .text-rotated { transform: rotate(-5deg); display: inline-block; background: var(--pink); color: black; padding: 10px; }
+
+        /* The Image Asset */
+        .img-wrapper { 
+            position: absolute; right: 10%; top: 20%; 
+            border: 5px solid var(--white); transform: rotate(10deg);
+        }
+        .img-wrapper img { width: 300px; filter: grayscale(50%) contrast(1.2); }
+
+        /* Custom Audio Style */
+        .audio-ctrl { position: absolute; bottom: 50px; left: 50px; }
         
-        /* The Glitch Animation */
-        .glitch:hover { animation: glitch 0.2s cubic-bezier(.25, .46, .45, .94) infinite; color: var(--red); }
-        @keyframes glitch { 
-            0% { transform: translate(2px, 1px); clip-path: inset(20% 0 30% 0); }
-            50% { transform: translate(-2px, -1px); clip-path: inset(50% 0 10% 0); }
-            100% { transform: translate(0, 0); clip-path: inset(10% 0 60% 0); }
-        }
-
-        .bocchi-img { width: 250px; border: 3px solid var(--yellow); margin: 20px 0; }
-        
-        /* Styled Audio Player */
-        audio { margin-top: 20px; filter: sepia(1) hue-rotate(280deg) saturate(3); }
+        /* Glitchy Navigation */
+        .nav { position: absolute; top: 50px; left: 50px; display: flex; flex-direction: column; gap: 10px; }
+        .nav a { color: var(--pink); text-decoration: none; font-size: 2rem; border: 2px solid transparent; }
+        .nav a:hover { border: 2px solid var(--yellow); }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1 class="glitch">PERFECTLYPIXELATED</h1>
-        <p>Bocchi the Rock! style developer. Anxious. Creative. Coding in the dark.</p>
-        
-        <!-- FIX THIS: Ensure image_53df47.png is in an /img folder in your repo -->
-        <img src="img/image_53df47.png" alt="Bocchi-chan" class="bocchi-img">
-        
-        <br>
-        <!-- FIX THIS: Ensure your music file is in an /audio folder -->
-        <audio controls loop>
+    <div class="frame"></div>
+
+    <div class="nav">
+        <a href="#">// PROJECTS</a>
+        <a href="#">// ABOUT_ME</a>
+        <a href="#">// GITHUB</a>
+    </div>
+
+    <div class="content">
+        <h1>PERFECTLY<br><span class="text-rotated">PIXELATED</span></h1>
+        <p>>_ GUITAR HERO // ANXIOUS DEVELOPER</p>
+        <p>>_ SPECIALIZING IN: Luau, JS, Web-Chaos.</p>
+    </div>
+
+    <div class="img-wrapper">
+        <img src="img/image_53df47.png" alt="Bocchi-chan">
+    </div>
+
+    <div class="audio-ctrl">
+        <audio controls autoplay loop>
             <source src="audio/bocchi-theme.mp3" type="audio/mpeg">
         </audio>
     </div>
