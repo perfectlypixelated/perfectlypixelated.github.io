@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>perfectlypixelated</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS Variables for easy customization */
         :root {
-            --bg-color: #0a0a0a;
-            --text-color: #ffffff;
-            --accent-color: #7289da;
-            --font-main: 'Inter', sans-serif;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --accent: #8b5cf6;
         }
 
         body, html {
@@ -18,106 +17,96 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: var(--font-main);
+            background: #050505;
+            color: white;
+            font-family: 'Inter', sans-serif;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
-        /* Animated Background */
-        .bg-canvas {
-            position: absolute;
+        /* Dreamy Animated Background */
+        .gradient-bg {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1e1b4b, #050505);
             z-index: -1;
-            background: radial-gradient(circle at 50% 50%, #1a1a2e, #0a0a0a);
         }
 
-        /* Floating Animation */
-        .content {
-            text-align: center;
-            animation: float 4s ease-in-out infinite;
+        .blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: var(--accent);
+            filter: blur(120px);
+            border-radius: 50%;
+            animation: move 15s infinite alternate ease-in-out;
+            opacity: 0.3;
+        }
+
+        @keyframes move {
+            0% { transform: translate(-10%, -10%); }
+            100% { transform: translate(20%, 20%); }
+        }
+
+        /* Floating Container */
+        .container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: float 6s ease-in-out infinite;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-15px); }
         }
 
-        h1 {
-            font-size: 4rem;
-            margin: 0;
-            letter-spacing: -2px;
+        /* Glassmorphism Card */
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 3rem;
+            border-radius: 30px;
+            text-align: center;
+            max-width: 600px;
         }
 
-        p {
-            font-size: 1.2rem;
-            opacity: 0.7;
-        }
+        h1 { font-size: 3.5rem; margin-bottom: 0.5rem; letter-spacing: -2px; }
+        p { font-size: 1.1rem; color: #a1a1aa; margin-bottom: 2rem; }
 
-        .links {
-            margin-top: 20px;
-        }
-
-        a {
-            color: var(--accent-color);
+        .btn {
+            padding: 12px 25px;
+            background: white;
+            color: black;
+            border-radius: 50px;
             text-decoration: none;
-            margin: 0 10px;
-            font-weight: bold;
-            transition: 0.3s;
+            font-weight: 600;
+            transition: transform 0.3s ease;
         }
 
-        a:hover {
-            color: #fff;
-        }
+        .btn:hover { transform: scale(1.05); }
+
     </style>
 </head>
 <body>
 
-    <div class="bg-canvas"></div>
+    <div class="gradient-bg">
+        <div class="blob"></div>
+    </div>
 
-    <main class="content">
-        <h1>perfectlypixelated</h1>
-        <p>Building the future, one frame at a time.</p>
-        <div class="links">
-            <a href="https://github.com/perfectlypixelated">GitHub</a>
-            <a href="#">Projects</a>
+    <main class="container">
+        <div class="card">
+            <h1>perfectlypixelated</h1>
+            <p>Roblox Architect & Web Developer. Crafting high-polish, liquid-motion experiences.</p>
+            <a href="https://github.com/perfectlypixelated" class="btn">View Projects</a>
         </div>
     </main>
 
-    <script>
-        // Simple animated background particle effect
-        const canvas = document.createElement('canvas');
-        document.body.prepend(canvas);
-        canvas.style.position = 'absolute';
-        canvas.style.top = '0';
-        canvas.style.left = '0';
-        canvas.style.zIndex = '-1';
-        
-        const ctx = canvas.getContext('2d');
-        let width, height;
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        function draw() {
-            ctx.clearRect(0, 0, width, height);
-            ctx.fillStyle = 'rgba(114, 137, 218, 0.05)';
-            ctx.beginPath();
-            ctx.arc(Math.sin(Date.now()/2000)*100 + width/2, Math.cos(Date.now()/3000)*100 + height/2, 200, 0, Math.PI * 2);
-            ctx.fill();
-            requestAnimationFrame(draw);
-        }
-        draw();
-    </script>
 </body>
 </html>
