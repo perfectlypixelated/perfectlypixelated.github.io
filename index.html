@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>perfectlypixelated</title>
+    <style>
+        /* CSS Variables for easy customization */
+        :root {
+            --bg-color: #0a0a0a;
+            --text-color: #ffffff;
+            --accent-color: #7289da;
+            --font-main: 'Inter', sans-serif;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Animated Background */
+        .bg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #1a1a2e, #0a0a0a);
+        }
+
+        /* Floating Animation */
+        .content {
+            text-align: center;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin: 0;
+            letter-spacing: -2px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            opacity: 0.7;
+        }
+
+        .links {
+            margin-top: 20px;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        a:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-canvas"></div>
+
+    <main class="content">
+        <h1>perfectlypixelated</h1>
+        <p>Building the future, one frame at a time.</p>
+        <div class="links">
+            <a href="https://github.com/perfectlypixelated">GitHub</a>
+            <a href="#">Projects</a>
+        </div>
+    </main>
+
+    <script>
+        // Simple animated background particle effect
+        const canvas = document.createElement('canvas');
+        document.body.prepend(canvas);
+        canvas.style.position = 'absolute';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.zIndex = '-1';
+        
+        const ctx = canvas.getContext('2d');
+        let width, height;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = 'rgba(114, 137, 218, 0.05)';
+            ctx.beginPath();
+            ctx.arc(Math.sin(Date.now()/2000)*100 + width/2, Math.cos(Date.now()/3000)*100 + height/2, 200, 0, Math.PI * 2);
+            ctx.fill();
+            requestAnimationFrame(draw);
+        }
+        draw();
+    </script>
+</body>
+</html>
