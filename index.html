@@ -5,68 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>perfectlypixelated</title>
     <style>
-        :root { --accent: #7289da; --bg: #0a0a0a; }
-        body, html { margin: 0; height: 100%; background: var(--bg); color: white; font-family: sans-serif; overflow: hidden; }
-        
-        /* The "Old" Floating Style */
-        #main-content {
+        /* --- CUSTOMIZATION: Easily change site colors here --- */
+        :root {
+            --bg-color: #050505;
+            --text-color: #ffffff;
+            --accent-color: #7289da;
+        }
+
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg-color); color: var(--text-color); font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+
+        #bgCanvas { position: fixed; top: 0; left: 0; z-index: 0; }
+
+        .ui-wrapper { 
+            position: relative; z-index: 1; 
             height: 100vh; display: flex; flex-direction: column; 
             justify-content: center; align-items: center;
-            animation: float 4s ease-in-out infinite;
+            animation: float 5s ease-in-out infinite;
         }
-        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
 
-        /* Navigation */
-        nav { position: absolute; top: 20px; display: flex; gap: 20px; }
-        .nav-link { cursor: pointer; color: #888; transition: 0.3s; }
-        .nav-link:hover { color: white; }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
 
-        /* Icons */
-        .icon { width: 30px; height: 30px; fill: white; margin: 10px; }
+        .card { background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 20px; backdrop-filter: blur(10px); text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+        
+        .icon-grid { display: flex; gap: 20px; justify-content: center; margin-top: 20px; }
+        .svg-icon { width: 40px; height: 40px; fill: var(--accent-color); transition: 0.3s; }
+        .svg-icon:hover { transform: scale(1.2); }
     </style>
 </head>
 <body>
 
     <canvas id="bgCanvas"></canvas>
 
-    <nav>
-        <div class="nav-link" onclick="showPage('home')">Home</div>
-        <div class="nav-link" onclick="showPage('projects')">Projects</div>
-        <div class="nav-link" onclick="showPage('about')">About</div>
-    </nav>
-
-    <main id="main-content">
-        <div id="page-content">
+    <div class="ui-wrapper">
+        <div class="card">
             <h1>perfectlypixelated</h1>
-            <p>Crafting high-polish, liquid-motion experiences.</p>
-            <!-- Custom SVG Icon Example -->
-            <svg class="icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <p>Roblox Developer | UI Architect | Web Enthusiast</p>
+            
+            <!-- SVG ICONS: Copy-paste more of these 'svg-icon' blocks as needed -->
+            <div class="icon-grid">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+            </div>
         </div>
-    </main>
+    </div>
 
     <script>
-        // Smooth Page Switching
-        function showPage(page) {
-            const content = document.getElementById('page-content');
-            if(page === 'projects') content.innerHTML = '<h1>Projects</h1><p>Feather Framework, Slime TDS, Feed a Dragon.</p>';
-            if(page === 'about') content.innerHTML = '<h1>About</h1><p>Roblox Developer & Web Architect.</p>';
-            if(page === 'home') content.innerHTML = '<h1>perfectlypixelated</h1><p>Crafting high-polish, liquid-motion experiences.</p>';
-        }
-
-        // Animated Background (The "Old" Logic)
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.onresize = resize; resize();
+        let width, height;
+
+        function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize);
+        resize();
 
         function draw() {
-            ctx.fillStyle = '#0a0a0a'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            const t = Date.now() / 2000;
-            const x = Math.sin(t) * 100 + canvas.width/2;
-            const y = Math.cos(t*0.7) * 100 + canvas.height/2;
-            const grad = ctx.createRadialGradient(x, y, 0, x, y, 300);
-            grad.addColorStop(0, '#7289da'); grad.addColorStop(1, 'transparent');
-            ctx.fillStyle = grad; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#050505'; ctx.fillRect(0, 0, width, height);
+            const time = Date.now() * 0.001;
+            const x = Math.sin(time) * 150 + width/2;
+            const y = Math.cos(time * 0.5) * 150 + height/2;
+            
+            const grad = ctx.createRadialGradient(x, y, 0, x, y, 400);
+            grad.addColorStop(0, '#7289da');
+            grad.addColorStop(1, 'transparent');
+            
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, width, height);
             requestAnimationFrame(draw);
         }
         draw();
