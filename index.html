@@ -4,109 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>perfectlypixelated</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --accent: #8b5cf6;
+        :root { --accent: #7289da; --bg: #0a0a0a; }
+        body, html { margin: 0; height: 100%; background: var(--bg); color: white; font-family: sans-serif; overflow: hidden; }
+        
+        /* The "Old" Floating Style */
+        #main-content {
+            height: 100vh; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center;
+            animation: float 4s ease-in-out infinite;
         }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background: #050505;
-            color: white;
-            font-family: 'Inter', sans-serif;
-            overflow: hidden;
-        }
+        /* Navigation */
+        nav { position: absolute; top: 20px; display: flex; gap: 20px; }
+        .nav-link { cursor: pointer; color: #888; transition: 0.3s; }
+        .nav-link:hover { color: white; }
 
-        /* Dreamy Animated Background */
-        .gradient-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 50%, #1e1b4b, #050505);
-            z-index: -1;
-        }
-
-        .blob {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: var(--accent);
-            filter: blur(120px);
-            border-radius: 50%;
-            animation: move 15s infinite alternate ease-in-out;
-            opacity: 0.3;
-        }
-
-        @keyframes move {
-            0% { transform: translate(-10%, -10%); }
-            100% { transform: translate(20%, 20%); }
-        }
-
-        /* Floating Container */
-        .container {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-        }
-
-        /* Glassmorphism Card */
-        .card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            padding: 3rem;
-            border-radius: 30px;
-            text-align: center;
-            max-width: 600px;
-        }
-
-        h1 { font-size: 3.5rem; margin-bottom: 0.5rem; letter-spacing: -2px; }
-        p { font-size: 1.1rem; color: #a1a1aa; margin-bottom: 2rem; }
-
-        .btn {
-            padding: 12px 25px;
-            background: white;
-            color: black;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: transform 0.3s ease;
-        }
-
-        .btn:hover { transform: scale(1.05); }
-
+        /* Icons */
+        .icon { width: 30px; height: 30px; fill: white; margin: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="gradient-bg">
-        <div class="blob"></div>
-    </div>
+    <canvas id="bgCanvas"></canvas>
 
-    <main class="container">
-        <div class="card">
+    <nav>
+        <div class="nav-link" onclick="showPage('home')">Home</div>
+        <div class="nav-link" onclick="showPage('projects')">Projects</div>
+        <div class="nav-link" onclick="showPage('about')">About</div>
+    </nav>
+
+    <main id="main-content">
+        <div id="page-content">
             <h1>perfectlypixelated</h1>
-            <p>Roblox Architect & Web Developer. Crafting high-polish, liquid-motion experiences.</p>
-            <a href="https://github.com/perfectlypixelated" class="btn">View Projects</a>
+            <p>Crafting high-polish, liquid-motion experiences.</p>
+            <!-- Custom SVG Icon Example -->
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
         </div>
     </main>
 
+    <script>
+        // Smooth Page Switching
+        function showPage(page) {
+            const content = document.getElementById('page-content');
+            if(page === 'projects') content.innerHTML = '<h1>Projects</h1><p>Feather Framework, Slime TDS, Feed a Dragon.</p>';
+            if(page === 'about') content.innerHTML = '<h1>About</h1><p>Roblox Developer & Web Architect.</p>';
+            if(page === 'home') content.innerHTML = '<h1>perfectlypixelated</h1><p>Crafting high-polish, liquid-motion experiences.</p>';
+        }
+
+        // Animated Background (The "Old" Logic)
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.onresize = resize; resize();
+
+        function draw() {
+            ctx.fillStyle = '#0a0a0a'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            const t = Date.now() / 2000;
+            const x = Math.sin(t) * 100 + canvas.width/2;
+            const y = Math.cos(t*0.7) * 100 + canvas.height/2;
+            const grad = ctx.createRadialGradient(x, y, 0, x, y, 300);
+            grad.addColorStop(0, '#7289da'); grad.addColorStop(1, 'transparent');
+            ctx.fillStyle = grad; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            requestAnimationFrame(draw);
+        }
+        draw();
+    </script>
 </body>
 </html>
